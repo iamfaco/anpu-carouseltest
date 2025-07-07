@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anpu Carousel</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      font-family: sans-serif;
+      color: #fff;
+      text-align: center;
+    }
+    .carousel {
+      max-width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease;
+      width: 300%;
+    }
+    .slide {
+      min-width: 100%;
+      box-sizing: border-box;
+    }
+    .slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      color: white;
+      font-size: 2rem;
+    }
+    .nav.left {
+      left: 10px;
+    }
+    .nav.right {
+      right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>安溥 會員禮盒圖片輪播</h2>
+  <div class="carousel">
+    <button class="nav left" onclick="prevSlide()">‹</button>
+    <div class="slides" id="slides">
+      <div class="slide"><img src="anpu1.jpg" alt="slide1" /></div>
+      <div class="slide"><img src="anpu2.jpg" alt="slide2" /></div>
+      <div class="slide"><img src="anpu3.jpg" alt="slide3" /></div>
+    </div>
+    <button class="nav right" onclick="nextSlide()">›</button>
+  </div>
+
+  <script>
+    let index = 0;
+    function showSlide(i) {
+      const slides = document.getElementById("slides");
+      index = (i + 3) % 3;
+      slides.style.transform = "translateX(" + (-index * 100) + "%)";
+    }
+    function nextSlide() { showSlide(index + 1); }
+    function prevSlide() { showSlide(index - 1); }
+  </script>
+</body>
+</html>
