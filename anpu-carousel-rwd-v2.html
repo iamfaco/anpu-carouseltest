@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=600">
+  <title>圖片輪播</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 0; font-family: sans-serif; }
+    .carousel {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .carousel-inner {
+      width: 100%;
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .carousel-item {
+      width: 100%;
+      height: auto;
+      min-width: 100%;
+      display: none;
+    }
+    .carousel-item.active {
+      display: block;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0,0,0,0.5);
+      color: #fff;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+    .carousel-dots {
+      text-align: center;
+      position: absolute;
+      bottom: 15px;
+      left: 0;
+      right: 0;
+      z-index: 2;
+    }
+    .carousel-dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background-color: rgba(0,0,0,0.3);
+      border-radius: 50%;
+      cursor: pointer;
+      margin: 0 5px;
+      transition: background-color 0.3s;
+    }
+    .carousel-dot.active {
+      background-color: #333;
+    }
+  
+    .carousel-inner img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    </style>
+    
+</head>
+<body>
+  <div class="carousel">
+    <button class="carousel-btn prev">&lt;</button>
+    <div class="carousel-inner">
+      <img src="https://shop.fantimate.com/cdn/shop/collections/CHOUMO_14-13-35_1200x1200_crop_center.jpg?v=1749526450" class="carousel-item active">
+      <img src="https://shop.fantimate.com/cdn/shop/files/101_sphoto_20250606_1220x1220_crop_center.jpg?v=1749441154" class="carousel-item">
+      <img src="https://shop.fantimate.com/cdn/shop/files/111_sphoto_20250606_1220x1220_crop_center.jpg?v=1749441181" class="carousel-item">
+    </div>
+    <button class="carousel-btn next">&gt;</button>
+    <div class="carousel-dots"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const items = document.querySelectorAll('.carousel-item');
+      const nextBtn = document.querySelector('.next');
+      const prevBtn = document.querySelector('.prev');
+      const dotsContainer = document.querySelector('.carousel-dots');
+      let currentIndex = 0;
+
+      items.forEach((_, index) => {
+        const dot = document.createElement('span');
+        dot.classList.add('carousel-dot');
+        if(index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+          currentIndex = index;
+          updateCarousel();
+        });
+        dotsContainer.appendChild(dot);
+      });
+
+      const dots = document.querySelectorAll('.carousel-dot');
+
+      function updateCarousel() {
+        items.forEach((item, i) => {
+          item.classList.toggle('active', i === currentIndex);
+          dots[i].classList.toggle('active', i === currentIndex);
+        });
+      }
+
+      nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % items.length;
+        updateCarousel();
+      });
+
+      prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        updateCarousel();
+      });
+
+      updateCarousel();
+    });
+  </script>
+</body>
+</html>
