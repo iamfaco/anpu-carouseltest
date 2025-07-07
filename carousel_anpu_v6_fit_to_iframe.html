@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anpu Carousel Full Width</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #1e1e1e;
+      color: white;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    .carousel-container {
+      width: 100%;
+      padding: 0 0 20px 0;
+    }
+
+    .carousel {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .slide {
+      min-width: 100%;
+      flex-shrink: 0;
+    }
+
+    .slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      background-color: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .nav.left {
+      left: 10px;
+    }
+
+    .nav.right {
+      right: 10px;
+    }
+
+    .meta {
+      padding: 1rem;
+      font-size: 1rem;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="carousel-container">
+    <div class="meta">
+      <div>2012-07-28 00:00:00</div>
+      <div class="title">TEST</div>
+    </div>
+    <div class="carousel">
+      <button class="nav left" onclick="prevSlide()">‹</button>
+      <div class="slides" id="slides">
+        <div class="slide"><img src="https://anpu-carouseltest-rx4c.vercel.app/anpu.jpg" alt="slide1" /></div>
+        <div class="slide"><img src="https://anpu-carouseltest-rx4c.vercel.app/anpu2.jpg" alt="slide2" /></div>
+        <div class="slide"><img src="https://anpu-carouseltest-rx4c.vercel.app/anpu3.jpg" alt="slide3" /></div>
+      </div>
+      <button class="nav right" onclick="nextSlide()">›</button>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.getElementById('slides');
+    const totalSlides = slides.children.length;
+
+    function updateSlidePosition() {
+      slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateSlidePosition();
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateSlidePosition();
+    }
+  </script>
+</body>
+</html>
