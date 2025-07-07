@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carousel + Fullscreen Viewer</title>
+  <style>
+    html, body {
+      margin: 0;
+      background-color: #000;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .carousel {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .slides {
+      display: flex;
+      width: 300%;
+      height: 100%;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .slide {
+      flex: 0 0 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .slide img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      user-select: none;
+      -webkit-user-drag: none;
+      cursor: pointer;
+    }
+
+    .nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: none;
+      padding: 1rem;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .nav.left { left: 10px; }
+    .nav.right { right: 10px; }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: rgba(0, 0, 0, 0.95);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .overlay img {
+      max-width: 100vw;
+      max-height: 100vh;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="carousel">
+    <div class="slides" id="slides">
+      <div class="slide"><img src="anpu1.jpg" onclick="openViewer(this.src)" /></div>
+      <div class="slide"><img src="anpu2.jpg" onclick="openViewer(this.src)" /></div>
+      <div class="slide"><img src="anpu3.jpg" onclick="openViewer(this.src)" /></div>
+    </div>
+    <button class="nav left" onclick="prevSlide()">&#10094;</button>
+    <button class="nav right" onclick="nextSlide()">&#10095;</button>
+  </div>
+
+  <div class="overlay" id="overlay" onclick="closeViewer()">
+    <img id="fullImage" src="" alt="full image" />
+  </div>
+
+  <script>
+    let index = 0;
+    const slides = document.getElementById('slides');
+
+    function showSlide(i) {
+      index = (i + 3) % 3;
+      slides.style.transform = 'translateX(' + (-index * 100) + '%)';
+    }
+
+    function prevSlide() { showSlide(index - 1); }
+    function nextSlide() { showSlide(index + 1); }
+
+    function openViewer(src) {
+      const viewer = document.getElementById('overlay');
+      const img = document.getElementById('fullImage');
+      img.src = src;
+      viewer.style.display = 'flex';
+    }
+
+    function closeViewer() {
+      document.getElementById('overlay').style.display = 'none';
+    }
+
+    document.addEventListener('contextmenu', e => e.preventDefault());
+  </script>
+</body>
+</html>
