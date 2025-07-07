@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Carousel</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .carousel {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      aspect-ratio: var(--aspect-ratio, 3 / 2);
+      overflow: hidden;
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.3s ease-in-out;
+      width: 300%;
+    }
+    .slide {
+      flex: 1 0 100%;
+      max-width: 100%;
+    }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px;
+    }
+    .nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      padding: 1rem;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .nav.left {
+      left: 10px;
+    }
+    .nav.right {
+      right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="carousel" id="carousel">
+    <div class="slides" id="slides">
+      <div class="slide"><img src="anpu1.jpg" alt="1" /></div>
+      <div class="slide"><img src="anpu2.jpg" alt="2" /></div>
+      <div class="slide"><img src="anpu3.jpg" alt="3" /></div>
+    </div>
+    <button class="nav left" onclick="prevSlide()">&#10094;</button>
+    <button class="nav right" onclick="nextSlide()">&#10095;</button>
+  </div>
+
+  <script>
+    // Parse ratio from URL
+    const params = new URLSearchParams(window.location.search);
+    const ratio = params.get('ratio');
+    if (ratio) {
+      const [w, h] = ratio.split(':').map(Number);
+      const carousel = document.getElementById('carousel');
+      carousel.style.setProperty('--aspect-ratio', `${w} / ${h}`);
+    }
+
+    let index = 0;
+    const slides = document.getElementById('slides');
+    function showSlide(i) {
+      index = (i + 3) % 3;
+      slides.style.transform = 'translateX(' + (-index * 100) + '%)';
+    }
+    function prevSlide() { showSlide(index - 1); }
+    function nextSlide() { showSlide(index + 1); }
+  </script>
+</body>
+</html>
